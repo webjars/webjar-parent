@@ -1,79 +1,79 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.malkusch.parent</groupId>
-	<artifactId>webjar-parent</artifactId>
-	<version>1.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>de.malkusch.parent</groupId>
+    <artifactId>webjar-parent</artifactId>
+    <version>1.2-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<parent>
-		<groupId>de.malkusch.parent</groupId>
-		<artifactId>oss-parent</artifactId>
-		<version>1.1</version>
-	</parent>
+    <parent>
+        <groupId>de.malkusch.parent</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>1.1</version>
+    </parent>
 
-	<properties>
-		<destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstream.version}</destDir>
-	</properties>
+    <properties>
+        <destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstream.version}</destDir>
+    </properties>
 
-	<url>http://webjars.org</url>
+    <url>http://webjars.org</url>
 
-	<scm>
-		<connection>scm:git:git://github.com/malkusch/${project.artifactId}.git</connection>
-		<developerConnection>scm:git:git@github.com:malkusch/${project.artifactId}.git</developerConnection>
-		<url>https://github.com/malkusch/${project.artifactId}</url>
-	</scm>
+    <scm>
+        <connection>scm:git:git://github.com/malkusch/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:git@github.com:malkusch/${project.artifactId}.git</developerConnection>
+        <url>https://github.com/malkusch/${project.artifactId}</url>
+    </scm>
 
-	<build>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>wagon-maven-plugin</artifactId>
-					<version>1.0-beta-4</version>
-					<executions>
-						<execution>
-							<phase>process-resources</phase>
-							<goals>
-								<goal>download-single</goal>
-							</goals>
-							<configuration>
-								<url>${upstream.url}</url>
-								<fromFile>${upstream.zip.file}</fromFile>
-								<toFile>${project.build.directory}/${project.artifactId}.zip</toFile>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>wagon-maven-plugin</artifactId>
+                    <version>1.0-beta-4</version>
+                    <executions>
+                        <execution>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>download-single</goal>
+                            </goals>
+                            <configuration>
+                                <url>${upstream.url}</url>
+                                <fromFile>${upstream.zip.file}</fromFile>
+                                <toFile>${project.build.directory}/${project.artifactId}.zip</toFile>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 
-				<plugin>
-					<artifactId>maven-antrun-plugin</artifactId>
-					<version>1.7</version>
-					<executions>
-						<execution>
-							<phase>process-resources</phase>
-							<goals>
-								<goal>run</goal>
-							</goals>
-							<configuration>
-								<target>
-									<echo message="unzip archive" />
-									<unzip src="${project.build.directory}/${project.artifactId}.zip" dest="${project.build.directory}" />
-									<echo message="moving resources" />
-									<move todir="${destDir}">
-										<fileset dir="${project.build.directory}/${upstream.zip.folder}" />
-									</move>
-								</target>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-		<resources>
-			<resource>
-				<directory>${project.basedir}/src/main/resources</directory>
-				<targetPath>${destDir}</targetPath>
-			</resource>
-		</resources>
-	</build>
+                <plugin>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.7</version>
+                    <executions>
+                        <execution>
+                            <phase>process-resources</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                            <configuration>
+                                <target>
+                                    <echo message="unzip archive" />
+                                    <unzip src="${project.build.directory}/${project.artifactId}.zip" dest="${project.build.directory}" />
+                                    <echo message="moving resources" />
+                                    <move todir="${destDir}">
+                                        <fileset dir="${project.build.directory}/${upstream.zip.folder}" />
+                                    </move>
+                                </target>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <targetPath>${destDir}</targetPath>
+            </resource>
+        </resources>
+    </build>
 </project>
