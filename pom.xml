@@ -1,29 +1,57 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>de.malkusch.parent</groupId>
-    <artifactId>webjar-parent</artifactId>
-    <version>1.2-SNAPSHOT</version>
+    <groupId>org.webjars</groupId>
+    <artifactId>webjars-parent</artifactId>
+    <version>1-SNAPSHOT</version>
     <packaging>pom</packaging>
+    <url>http://webjars.org</url>
 
     <parent>
-        <groupId>de.malkusch.parent</groupId>
+        <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
-        <version>1.1</version>
+        <version>7</version>
     </parent>
 
     <properties>
         <destDir>${project.build.outputDirectory}/META-INF/resources/webjars/${project.artifactId}/${upstream.version}</destDir>
     </properties>
 
-    <url>http://webjars.org</url>
+    <developers>
+        <developer>
+            <id>jamesward</id>
+            <name>James Ward</name>
+            <url>http://www.jamesward.com</url>
+            <email>james@jamesward.com</email>
+        </developer>
+    </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/malkusch/${project.artifactId}.git</connection>
-        <developerConnection>scm:git:git@github.com:malkusch/${project.artifactId}.git</developerConnection>
-        <url>https://github.com/malkusch/${project.artifactId}</url>
+        <connection>scm:git:git://github.com/webjars/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:git@github.com:webjars/${project.artifactId}.git</developerConnection>
+        <url>https://github.com/webjars/${project.artifactId}</url>
     </scm>
 
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/webjars/${project.artifactId}/issues</url>
+    </issueManagement>
+
     <build>
+        
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.5.1</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>sonatype-nexus-staging</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -69,11 +97,14 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
                 <targetPath>${destDir}</targetPath>
             </resource>
         </resources>
+        
     </build>
+    
 </project>
